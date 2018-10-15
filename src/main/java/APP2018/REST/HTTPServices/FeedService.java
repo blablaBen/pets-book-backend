@@ -18,11 +18,20 @@ public class FeedService {
     //GET Posts - All
     @GET
     @Produces({ MediaType.APPLICATION_JSON})
-    public ArrayList<PostedStatus> getDrivers() {
+    public ArrayList<PostedStatus> getPosts() {
         ArrayList<PostedStatus> postedStatusList = new ArrayList<PostedStatus>();
         postedStatusList = serviceInterface.getAll();
 
         return postedStatusList;
+    }
+
+    //GET Driver - Single
+    @GET
+    @Path("{id}")
+    @Produces({ MediaType.APPLICATION_JSON})
+    public PostedStatus getPost(@PathParam("id") String id) {
+        return serviceInterface.getOne(id);
+
     }
 
     //POST a Post

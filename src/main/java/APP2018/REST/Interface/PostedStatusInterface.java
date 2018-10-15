@@ -3,11 +3,13 @@ package APP2018.REST.Interface;
 import APP2018.REST.Model.Driver;
 import APP2018.REST.Model.PostedStatus;
 import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -26,6 +28,35 @@ public class PostedStatusInterface {
         MongoDatabase database = mongoClient.getDatabase("APP18_Workshop4");
 
         this.collection = database.getCollection("postedstatus");
+    }
+
+    public PostedStatus getOne(String id) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", new ObjectId(id));
+        Document item = collection.find(query).first();
+
+        if (item == null) {
+            return  null;
+        }
+
+        PostedStatus status = buildPostedStatusItem(item);
+        return status;
+    }
+
+    private PostedStatus buildPostedStatusItem(Document item) {
+        List<Document> pictures = (List<Document>)item.get("pictures");
+        List<String> picturesList = new ArrayList();
+        for(Document pic : pictures) {
+            picturesList.add(pic.getString("url"));
+        }
+
+        PostedStatus status = new PostedStatus(item.getString("userId"),
+                item.getString("textValue"),
+                picturesList,
+                item.getString("date"));
+
+        status.setId(item.getObjectId("_id").toString());
+        return status;
     }
 
     public ArrayList<PostedStatus> getAll() {
