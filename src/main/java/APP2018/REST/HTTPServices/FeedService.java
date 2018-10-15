@@ -4,10 +4,9 @@ import APP2018.REST.Interface.DriverInterface;
 import APP2018.REST.Interface.PostedStatusInterface;
 import APP2018.REST.Model.Driver;
 import APP2018.REST.Model.PostedStatus;
+import org.codehaus.jettison.json.JSONObject;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 
@@ -24,5 +23,13 @@ public class FeedService {
         postedStatusList = serviceInterface.getAll();
 
         return postedStatusList;
+    }
+
+    //POST a Post
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
+    public Object createPost(JSONObject obj) {
+        return serviceInterface.create(obj);
     }
 }

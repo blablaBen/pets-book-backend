@@ -17,11 +17,11 @@
           <element id="dir-copy" path="$PROJECT_DIR$/out/production/resources" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-json:1.13" />
+          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-json:1.19" />
           <element id="library" level="project" name="Gradle: javax.ws.rs:jsr311-api:1.1.1" />
-          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-bundle:1.13" />
-          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-core:1.13" />
-          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-servlet:1.13" />
+          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-bundle:1.19" />
+          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-core:1.19" />
+          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-servlet:1.19" />
           <element id="library" level="project" name="Gradle: com.owlike:genson:1.4" />
           <element id="library" level="project" name="Gradle: org.mongodb:mongodb-driver:3.4.0" />
           <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-core:2.8.2" />
@@ -33,10 +33,8 @@
           <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-mapper-asl:1.9.2" />
           <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-jaxrs:1.9.2" />
           <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-xc:1.9.2" />
-          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-server:1.13" />
-          <element id="library" level="project" name="Gradle: stax:stax-api:1.0.1" />
+          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-server:1.19" />
           <element id="library" level="project" name="Gradle: javax.xml.bind:jaxb-api:2.2.2" />
-          <element id="library" level="project" name="Gradle: asm:asm:3.1" />
           <element id="library" level="project" name="Gradle: javax.xml.stream:stax-api:1.0-2" />
           <element id="library" level="project" name="Gradle: javax.activation:activation:1.1" />
           <element id="library" level="project" name="Gradle: org.mongodb:bson:3.4.2" />
