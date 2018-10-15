@@ -37,17 +37,16 @@ public class PostedStatusInterface {
             return  postList;
         }
         for (Document item : results) {
-            List<Document> pictures = (List<Document>)item.get("picture");
-            List<String> picturesList = pictures.stream().map(d -> d.toString()).collect(Collectors.toList());
-
-            List<Document> commentId = (List<Document>)item.get("commentId");
-            List<String> commentIdList = commentId.stream().map(d -> d.toString()).collect(Collectors.toList());
+            List<Document> pictures = (List<Document>)item.get("pictures");
+            List<String> picturesList = new ArrayList();
+            for(Document pic : pictures) {
+                picturesList.add(pic.getString("url"));
+            }
 
             PostedStatus status = new PostedStatus(item.getString("userId"),
                     item.getString("textValue"),
                     picturesList,
-                    item.getDate("date"),
-                    commentIdList);
+                    item.getString("date"));
 
             status.setId(item.getObjectId("_id").toString());
             postList.add(status);
@@ -64,7 +63,9 @@ public class PostedStatusInterface {
             BasicDBList pictures = new BasicDBList();
             JSONArray picturesJsonArray = obj.getJSONArray("pictures");
             for(int i = 0 ; i <picturesJsonArray.length() ; i++) {
-                pictures.add(picturesJsonArray.get(i));
+                Document item = new Document();
+                item.append("url", (picturesJsonArray.get(i)));
+                pictures.add(item);
             }
             doc.append("pictures", pictures);
             collection.insertOne(doc);
