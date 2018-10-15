@@ -1,8 +1,6 @@
 package APP2018.REST.HTTPServices;
 
-import APP2018.REST.Interface.DriverInterface;
 import APP2018.REST.Interface.PostedStatusInterface;
-import APP2018.REST.Model.Driver;
 import APP2018.REST.Model.PostComment;
 import APP2018.REST.Model.PostedStatus;
 import APP2018.REST.PATCH;
