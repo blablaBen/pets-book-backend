@@ -1,5 +1,6 @@
 package APP2018.REST.Interface;
 
+import APP2018.REST.Model.PostComment;
 import APP2018.REST.Model.PostedStatus;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -17,19 +18,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostedStatusInterface {
-    MongoCollection<Document> collection;
+    MongoCollection<Document> postCollection;
+    MongoCollection<Document> commentCollection;
 
     public PostedStatusInterface() {
         MongoClient mongoClient = new MongoClient();
         MongoDatabase database = mongoClient.getDatabase("APP18_Workshop4");
 
-        this.collection = database.getCollection("postedstatus");
+        this.postCollection = database.getCollection("postedstatus");
+        this.commentCollection = database.getCollection("comment");
     }
 
     public PostedStatus getOne(String id) {
         BasicDBObject query = new BasicDBObject();
         query.put("_id", new ObjectId(id));
-        Document item = collection.find(query).first();
+        Document item = postCollection.find(query).first();
 
         if (item == null) {
             return  null;
@@ -60,7 +63,7 @@ public class PostedStatusInterface {
 
         ArrayList<PostedStatus> postList = new ArrayList<PostedStatus>();
 
-        FindIterable<Document> results = collection.find();
+        FindIterable<Document> results = postCollection.find();
         if (results == null) {
             return  postList;
         }
@@ -98,7 +101,7 @@ public class PostedStatusInterface {
                 pictures.add(item);
             }
             doc.append("pictures", pictures);
-            collection.insertOne(doc);
+            postCollection.insertOne(doc);
 
         } catch(JSONException e) {
 
@@ -131,7 +134,7 @@ public class PostedStatusInterface {
             }
 
             Document set = new Document("$set", doc);
-            collection.updateOne(query,set);
+            postCollection.updateOne(query,set);
 
         } catch(JSONException e) {
             System.out.println("Failed to create a document");
@@ -144,8 +147,48 @@ public class PostedStatusInterface {
         BasicDBObject query = new BasicDBObject();
         query.put("_id", new ObjectId(id));
 
-        collection.deleteOne(query);
+        postCollection.deleteOne(query);
 
         return new JSONObject();
+    }
+
+
+    public Object createComment(String postId, JSONObject obj) {
+        try {
+            Document doc = new Document("postId", postId)
+                    .append("content", obj.getString("content"))
+                    .append("time", obj.getString("time"))
+                    .append("userId", obj.getString("userId"));
+
+            commentCollection.insertOne(doc);
+        } catch(JSONException e) {
+
+        }
+        return obj;
+    }
+
+    public Object deleteComment(String commentId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", new ObjectId(commentId));
+
+        commentCollection.deleteOne(query);
+
+        return new JSONObject();
+    }
+
+    public ArrayList<PostComment> getAllComments(String postId) {
+
+        BasicDBObject query = new BasicDBObject();
+        query.put("postId", postId);
+
+        FindIterable<Document> items = commentCollection.find(query);
+        ArrayList<PostComment> result = new ArrayList();
+        for(Document item : items) {
+            PostComment post = new PostComment(item.getString("postId"), item.getString("content"), item.getString("time"), item.getString("userId"));
+            post.setId(item.getObjectId("_id").toString());
+            result.add(post);
+        }
+
+        return result;
     }
 }
