@@ -1,6 +1,5 @@
 package APP2018.REST.Interface;
 
-import APP2018.REST.Model.Driver;
 import APP2018.REST.Model.PostedStatus;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -15,10 +14,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class PostedStatusInterface {
     MongoCollection<Document> collection;
@@ -39,11 +35,11 @@ public class PostedStatusInterface {
             return  null;
         }
 
-        PostedStatus status = buildPostedStatusItem(item);
+        PostedStatus status = buildGetPostedStatusItem(item);
         return status;
     }
 
-    private PostedStatus buildPostedStatusItem(Document item) {
+    private PostedStatus buildGetPostedStatusItem(Document item) {
         List<Document> pictures = (List<Document>)item.get("pictures");
         List<String> picturesList = new ArrayList();
         for(Document pic : pictures) {
@@ -53,7 +49,8 @@ public class PostedStatusInterface {
         PostedStatus status = new PostedStatus(item.getString("userId"),
                 item.getString("textValue"),
                 picturesList,
-                item.getString("date"));
+                item.getString("date"),
+                item.getInteger("commentCount"));
 
         status.setId(item.getObjectId("_id").toString());
         return status;
@@ -77,7 +74,8 @@ public class PostedStatusInterface {
             PostedStatus status = new PostedStatus(item.getString("userId"),
                     item.getString("textValue"),
                     picturesList,
-                    item.getString("date"));
+                    item.getString("date"),
+                    item.getInteger("commentCount"));
 
             status.setId(item.getObjectId("_id").toString());
             postList.add(status);
@@ -89,7 +87,8 @@ public class PostedStatusInterface {
         try {
             Document doc = new Document("userId", obj.getString("userId"))
                     .append("textValue", obj.getString("textValue"))
-                    .append("date", obj.getString("date"));
+                    .append("date", obj.getString("date"))
+                    .append("commentCount", 0);
 
             BasicDBList pictures = new BasicDBList();
             JSONArray picturesJsonArray = obj.getJSONArray("pictures");

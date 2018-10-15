@@ -9,13 +9,15 @@ public class PostedStatus {
     String textValue;
     List<String> pictures;
     String date;
+    int commentCount;
 
 
-    public PostedStatus(String userId, String textValue, List<String> pictures, String date) {
+    public PostedStatus(String userId, String textValue, List<String> pictures, String date, int commentCount) {
         this.userId = userId;
         this.textValue = textValue;
         this.pictures = pictures;
         this.date = date;
+        this.commentCount = commentCount;
     }
 
     public void setId(String id) {
