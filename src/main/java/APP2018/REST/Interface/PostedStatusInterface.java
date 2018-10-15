@@ -2,11 +2,13 @@ package APP2018.REST.Interface;
 
 import APP2018.REST.Model.Driver;
 import APP2018.REST.Model.PostedStatus;
+import com.mongodb.BasicDBList;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -57,9 +59,14 @@ public class PostedStatusInterface {
         try {
             Document doc = new Document("userId", obj.getString("userId"))
                     .append("textValue", obj.getString("textValue"))
-                    .append("date", obj.getString("date"))
-                    .append("pictures", obj.getJSONArray("pictures"))
-                    .append("commentId", obj.getJSONArray("commentId"));
+                    .append("date", obj.getString("date"));
+
+            BasicDBList pictures = new BasicDBList();
+            JSONArray picturesJsonArray = obj.getJSONArray("pictures");
+            for(int i = 0 ; i <picturesJsonArray.length() ; i++) {
+                pictures.add(picturesJsonArray.get(i));
+            }
+            doc.append("pictures", pictures);
             collection.insertOne(doc);
 
         } catch(JSONException e) {
