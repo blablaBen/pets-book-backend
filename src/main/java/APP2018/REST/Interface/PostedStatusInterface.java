@@ -106,4 +106,47 @@ public class PostedStatusInterface {
         }
         return obj;
     }
+
+
+    public Object update(String id, JSONObject obj) {
+        try {
+
+            BasicDBObject query = new BasicDBObject();
+            query.put("_id", new ObjectId(id));
+
+            Document doc = new Document();
+
+            if (obj.has("textValue"))
+                doc.append("textValue",obj.getString("textValue"));
+            if (obj.has("date"))
+                doc.append("date",obj.getString("date"));
+            if (obj.has("pictures")) {
+                BasicDBList pictures = new BasicDBList();
+                JSONArray picturesJsonArray = obj.getJSONArray("pictures");
+                for(int i = 0 ; i <picturesJsonArray.length() ; i++) {
+                    Document item = new Document();
+                    item.append("url", (picturesJsonArray.get(i)));
+                    pictures.add(item);
+                }
+                doc.append("pictures", pictures);
+            }
+
+            Document set = new Document("$set", doc);
+            collection.updateOne(query,set);
+
+        } catch(JSONException e) {
+            System.out.println("Failed to create a document");
+
+        }
+        return obj;
+    }
+
+    public Object delete(String id) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", new ObjectId(id));
+
+        collection.deleteOne(query);
+
+        return new JSONObject();
+    }
 }

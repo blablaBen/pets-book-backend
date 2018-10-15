@@ -4,6 +4,7 @@ import APP2018.REST.Interface.DriverInterface;
 import APP2018.REST.Interface.PostedStatusInterface;
 import APP2018.REST.Model.Driver;
 import APP2018.REST.Model.PostedStatus;
+import APP2018.REST.PATCH;
 import org.codehaus.jettison.json.JSONObject;
 
 import javax.ws.rs.*;
@@ -25,7 +26,7 @@ public class FeedService {
         return postedStatusList;
     }
 
-    //GET Driver - Single
+    //GET Post - Single
     @GET
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON})
@@ -40,5 +41,25 @@ public class FeedService {
     @Produces({ MediaType.APPLICATION_JSON})
     public Object createPost(JSONObject obj) {
         return serviceInterface.create(obj);
+    }
+
+    //PATCH a Post
+    @PATCH
+    @Path("{id}")
+    @Consumes({ MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
+    public Object updatePost(@PathParam("id") String id, JSONObject obj) {
+        return serviceInterface.update(id,obj);
+
+    }
+
+    //DELETE a Driver
+    @DELETE
+    @Path("{id}")
+    @Produces({ MediaType.APPLICATION_JSON})
+    public Object deletePost(@PathParam("id") String id) {
+
+        return serviceInterface.delete(id);
+
     }
 }
