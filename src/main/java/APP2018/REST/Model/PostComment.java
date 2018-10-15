@@ -4,14 +4,14 @@ import java.util.Date;
 
 public class PostComment {
     String id=null;
-    String commentId;
+    String postId;
     String content;
-    Date time;
+    String time;
     String userId;
 
 
-    public PostComment(String commentId, String content, Date time, String userId) {
-        this.commentId = commentId;
+    public PostComment(String postId, String content, String time, String userId) {
+        this.postId = postId;
         this.content = content;
         this.time = time;
         this.userId = userId;
